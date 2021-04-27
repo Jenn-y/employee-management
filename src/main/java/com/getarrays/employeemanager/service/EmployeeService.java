@@ -7,15 +7,13 @@ import com.getarrays.employeemanager.exception.UserNotFoundException;
 import com.getarrays.employeemanager.model.Employee;
 import com.getarrays.employeemanager.repo.EmployeeRepo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
-  private final EmployeeRepo employeeRepo;
+  EmployeeRepo employeeRepo;
 
-  @Autowired
-  public EmployeeService(EmployeeRepo employeeRepo){
+  public EmployeeService(final EmployeeRepo employeeRepo){
     this.employeeRepo = employeeRepo;
   }
 

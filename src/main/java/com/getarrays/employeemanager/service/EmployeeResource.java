@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeResource {
-  private final EmployeeService employeeService;
+  EmployeeService employeeService;
 
-  public EmployeeResource(EmployeeService employeeService) {
+  public EmployeeResource(final EmployeeService employeeService) {
     this.employeeService = employeeService;
   }
 
