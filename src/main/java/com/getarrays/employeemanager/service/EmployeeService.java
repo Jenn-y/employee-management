@@ -1,40 +1,71 @@
 package com.getarrays.employeemanager.service;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import com.getarrays.employeemanager.exception.UserNotFoundException;
-import com.getarrays.employeemanager.model.Employee;
+import com.getarrays.employeemanager.model.dto.EmployeeDTO;
+import com.getarrays.employeemanager.model.entity.Employee;
 import com.getarrays.employeemanager.repo.EmployeeRepo;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class EmployeeService {
-  EmployeeRepo employeeRepo;
+  private final EmployeeRepo employeeRepo;
 
-  public EmployeeService(final EmployeeRepo employeeRepo){
-    this.employeeRepo = employeeRepo;
-  }
-
-  public Employee addEmployee(Employee employee){
+  public EmployeeDTO addEmployee(EmployeeDTO payload){
+    Employee employee = fromPayload(payload);
     employee.setEmployeeCode(UUID.randomUUID().toString());
-    return employeeRepo.save(employee);
+    employee = employeeRepo.save(employee);
+    return toPayload(employee);
   }
 
-  public List<Employee> findAllEmployees(){
-    return employeeRepo.findAll();
+  public Collection<EmployeeDTO> findAllEmployees(){
+    return employeeRepo.findAll().stream().map(this::toPayload).collect(Collectors.toList());
   }
 
-  public Employee updateEmployee(Employee employee){
-    return employeeRepo.save(employee);
+  public EmployeeDTO updateEmployee(Long id, EmployeeDTO payload){
+    findEmployeeById(id);
+
+    Employee employee = fromPayload(payload);
+    employee.setId(id);
+    employee = employeeRepo.save(employee);
+    return toPayload(employee);
   }
 
-  public Employee findEmployeeById(Long id){
-    return employeeRepo.findEmployeeById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
+  public EmployeeDTO findEmployeeById(Long id){
+     Optional<Employee> employee = employeeRepo.findById(id);
+     if (employee.isPresent()) return toPayload(employee.get());
+     throw new RuntimeException("Employee with id " + id + " does not exist!");
   }
 
-  public void deleteEmployee(Long id){
-    employeeRepo.deleteEmployeeById(id);
+  // public void deleteEmployee(Long id){
+  //   employeeRepo.deleteById(id);
+  // }
+
+  private Employee fromPayload(EmployeeDTO payload) {
+    Employee employee = new Employee();
+    employee.setName(payload.getName());
+    employee.setEmail(payload.getEmail());
+    employee.setJobTitle(payload.getJobTitle());
+    employee.setPhone(payload.getPhone());
+    employee.setEmployeeCode(payload.getEmployeeCode());
+    return employee;
+  }
+
+  private EmployeeDTO toPayload(Employee employee) {
+    EmployeeDTO payload = new EmployeeDTO();
+    payload.setId(employee.getId());
+    payload.setName(employee.getName());
+    payload.setEmail(employee.getEmail());
+    payload.setJobTitle(employee.getJobTitle());
+    payload.setPhone(employee.getPhone());
+    payload.setEmployeeCode(employee.getEmployeeCode());
+    return payload;
   }
 }

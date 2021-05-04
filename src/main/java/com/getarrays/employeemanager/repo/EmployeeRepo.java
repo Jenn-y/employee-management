@@ -1,17 +1,9 @@
 package com.getarrays.employeemanager.repo;
 
-import java.util.List;
-import java.util.Optional;
+import com.getarrays.employeemanager.model.entity.Employee;
 
-import com.getarrays.employeemanager.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployeeRepo{
-
-  void deleteEmployeeById(Long id);
-
-  Employee save(Employee employee);
-
-  List<Employee> findAll();
-
-  Optional<Employee> findEmployeeById(Long id);
+public interface EmployeeRepo extends JpaRepository<Employee, Long> {
+ 
 }
