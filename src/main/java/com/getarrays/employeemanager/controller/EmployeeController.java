@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeController {
   private final EmployeeService employeeService;
 
-  @GetMapping("/all")
+  @GetMapping
   public ResponseEntity<Collection<EmployeeDTO>> getAllEmployees(){
     Collection<EmployeeDTO> employees = employeeService.findAllEmployees();
 

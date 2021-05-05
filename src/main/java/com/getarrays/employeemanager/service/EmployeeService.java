@@ -54,6 +54,7 @@ public class EmployeeService {
     employee.setEmail(payload.getEmail());
     employee.setJobTitle(payload.getJobTitle());
     employee.setPhone(payload.getPhone());
+    employee.setImageUrl(payload.getImageUrl());
     employee.setEmployeeCode(payload.getEmployeeCode());
     return employee;
   }
@@ -65,6 +66,7 @@ public class EmployeeService {
     payload.setEmail(employee.getEmail());
     payload.setJobTitle(employee.getJobTitle());
     payload.setPhone(employee.getPhone());
+    payload.setImageUrl(employee.getImageUrl());
     payload.setEmployeeCode(employee.getEmployeeCode());
     return payload;
   }
