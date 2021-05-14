@@ -29,24 +29,24 @@ public class EmployeeService {
     return employeeRepo.findAll().stream().map(this::toPayload).collect(Collectors.toList());
   }
 
+  public EmployeeDTO findEmployeeById(Long id){
+    Optional<Employee> employee = employeeRepo.findEmployeeById(id);
+    if (employee.isPresent()) return toPayload(employee.get());
+    throw new RuntimeException("Employee with id " + id + " does not exist!");
+ }
+
   public EmployeeDTO updateEmployee(Long id, EmployeeDTO payload){
     findEmployeeById(id);
-
+    
     Employee employee = fromPayload(payload);
     employee.setId(id);
     employee = employeeRepo.save(employee);
     return toPayload(employee);
   }
 
-  public EmployeeDTO findEmployeeById(Long id){
-     Optional<Employee> employee = employeeRepo.findById(id);
-     if (employee.isPresent()) return toPayload(employee.get());
-     throw new RuntimeException("Employee with id " + id + " does not exist!");
+  public void deleteEmployee(Long id){
+    employeeRepo.deleteById(id);
   }
-
-  // public void deleteEmployee(Long id){
-  //   employeeRepo.deleteById(id);
-  // }
 
   private Employee fromPayload(EmployeeDTO payload) {
     Employee employee = new Employee();
