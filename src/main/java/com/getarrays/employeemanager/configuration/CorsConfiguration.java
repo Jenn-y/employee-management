@@ -13,7 +13,17 @@ public class CorsConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+                registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:4200")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .maxAge(3600L)
+                    .allowedHeaders("Origin", "Access-Control-Allow-Origin", "Content-Type",
+                    "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
+                    "Access-Control-Request-Method", "Access-Control-Request-Headers")
+                    .exposedHeaders("Origin", "Content-Type", "Accept", "Authorization",
+				"Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+                    .allowCredentials(true);
+                    
             }
         };
     }
