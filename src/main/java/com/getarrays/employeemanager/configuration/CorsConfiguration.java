@@ -14,7 +14,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:4200")
+                    .allowedOrigins("http://localhost:4200", "https://employee-mngt.netlify.app")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .maxAge(3600L)
                     .allowedHeaders("Origin", "Access-Control-Allow-Origin", "Content-Type",
